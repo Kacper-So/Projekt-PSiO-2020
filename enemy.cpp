@@ -87,7 +87,6 @@ void Enemy::movement(sf::Time elapsed, vector<Object> &v_o)
         this->inJump=true;
         this->hitbox.move(0,elapsed.asSeconds()*this->velocity.second);
     }
-    cout<<this->velocity.second<<endl;
 }
 
 void Enemy::update(sf::Time elapsed, vector<Object> &v_o)

@@ -16,7 +16,6 @@ private:
     sf::VideoMode videoMode;
     sf::Event ev;
     sf::View view;
-    vector<Projectile> v_p;
     float g=0.3;
 
     //Priv Functions
@@ -27,6 +26,8 @@ public:
     //Variables
     vector<Object> v_o;
     vector<Enemy> v_e;
+    vector<Projectile> v_p;
+    int lowest_object_y;
     Player player;
     //Constructors & Destructors
     Game();

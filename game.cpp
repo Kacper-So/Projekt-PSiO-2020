@@ -126,13 +126,11 @@ void Game::render()
         }
     }
     this->window->draw(this->player.spr);
-
-
-    if(this->player.hitbox.getPosition().y>=1430)
+    if(this->player.hitbox.getPosition().y>=this->lowest_object_y-370)
     {
-        this->view.setCenter(sf::Vector2f(this->player.hitbox.getPosition().x+25,this->videoMode.height/2+2*this->videoMode.height));
+        this->view.setCenter(sf::Vector2f(this->player.hitbox.getPosition().x+25,this->lowest_object_y-300));
     }
-    if(this->player.hitbox.getPosition().y<1430)
+    if(this->player.hitbox.getPosition().y<this->lowest_object_y-370)
     {
         this->view.setCenter(sf::Vector2f(this->player.hitbox.getPosition().x+25,this->player.hitbox.getPosition().y+70));
     }

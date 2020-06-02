@@ -44,6 +44,7 @@ vector<Object> generateMap(Game &game)
             y+=50;
         }
     }
+    game.lowest_object_y=y;
     return v;
 }
 
