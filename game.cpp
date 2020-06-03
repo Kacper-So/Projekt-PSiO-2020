@@ -104,7 +104,7 @@ void Game::update(sf::Time elapsed)
 
 void Game::render()
 {
-    this->window->clear();
+    this->window->clear(sf::Color(82,171,240));
 
     //Drawing objects
     for(int i=0;i<this->v_o.size();i++)

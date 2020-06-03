@@ -14,6 +14,8 @@ public:
     sf::Sprite spr;
     sf::Texture tex;
     sf::RectangleShape hbR,hbL,hbU,hbD;
+    sf::IntRect anim;
+    int anim_iterator=50;
     //Constructors & Destructors
     Object();
     virtual ~Object();

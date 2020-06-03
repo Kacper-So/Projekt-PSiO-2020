@@ -31,8 +31,15 @@ void Object::set()
     this->hbD.setPosition(sf::Vector2f(this->hitbox.getPosition().x,this->hitbox.getPosition().y+this->hitbox.getSize().y));
     this->hbL.setPosition(sf::Vector2f(this->hitbox.getPosition().x-1,this->hitbox.getPosition().y));
     this->hbR.setPosition(sf::Vector2f(this->hitbox.getPosition().x+this->hitbox.getSize().x,this->hitbox.getPosition().y));
-    if(this->type=='1') this->tex.loadFromFile("Textures/1.png");
-    if(this->type=='2') this->tex.loadFromFile("Textures/2.png");
+    this->tex.loadFromFile("Textures/object_tex.png");
+    this->anim.width=this->anim_iterator;
+    this->anim.height=this->anim_iterator;
     this->spr.setTexture(this->tex);
+    if(this->type=='1') {this->anim.top=0; this->anim.left=0*anim_iterator;}
+    if(this->type=='2') {this->anim.top=0; this->anim.left=anim_iterator;}
+    if(this->type=='3') {this->anim.top=0; this->anim.left=2*anim_iterator;}
+    if(this->type=='4') {this->anim.top=0; this->anim.left=3*anim_iterator;}
+    if(this->type=='5') {this->anim.top=0; this->anim.left=4*anim_iterator;}
+    this->spr.setTextureRect(this->anim);
     this->spr.setPosition(this->hitbox.getPosition());
 }
