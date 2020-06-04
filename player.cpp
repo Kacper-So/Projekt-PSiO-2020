@@ -12,7 +12,6 @@ Player::~Player()
 
 }
 
-
 //Functions
 void Player::set()
 {
@@ -31,6 +30,8 @@ bool Player::collision_x(vector<Object> &v_o)
     {
         if(this->hitbox.getGlobalBounds().intersects(v_o[i].hbL.getGlobalBounds()))
         {
+            this->hitbox.setPosition(v_o[i].hitbox.getPosition().x-this->hitbox.getSize().x,this->hitbox.getPosition().y);
+            this->k_bw=make_pair(this->hitbox.getPosition().x,this->hitbox.getPosition().y);
             if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))
             {
                 return false;
@@ -42,6 +43,8 @@ bool Player::collision_x(vector<Object> &v_o)
         }
         if(this->hitbox.getGlobalBounds().intersects(v_o[i].hbR.getGlobalBounds()))
         {
+            this->hitbox.setPosition(v_o[i].hbR.getPosition().x,this->hitbox.getPosition().y);
+            this->k_bw=make_pair(this->hitbox.getPosition().x,this->hitbox.getPosition().y);
             if(sf::Keyboard::isKeyPressed(sf::Keyboard::D))
             {
                 return false;
@@ -58,13 +61,13 @@ bool Player::collision_U(vector<Object> &v_o)
 {
     for(int i=0;i<v_o.size();i++)
     {
-        if(this->hitbox.getGlobalBounds().intersects(v_o[i].hbU.getGlobalBounds()))
+        if(this->hitbox.getGlobalBounds().intersects(v_o[i].hbU.getGlobalBounds()) && this->hitbox.getPosition().y<v_o[i].hitbox.getPosition().y-60)
         {
             this->falling_clock.restart();
             this->falling_time=sf::seconds(0.3);
             this->velocity.second=0;
             this->onGround=true;
-            this->hitbox.setPosition(sf::Vector2f(this->hitbox.getPosition().x,v_o[i].hitbox.getPosition().y-this->hitbox.getSize().y));
+            this->hitbox.setPosition(sf::Vector2f(this->hitbox.getPosition().x,v_o[i].hitbox.getPosition().y-this->hitbox.getSize().y-1));
             return true;
         }
         else
@@ -78,8 +81,9 @@ bool Player::collision_D(vector<Object> &v_o)
 {
     for(int i=0;i<v_o.size();i++)
     {
-        if(this->hitbox.getGlobalBounds().intersects(v_o[i].hbD.getGlobalBounds()))
+        if(this->hitbox.getGlobalBounds().intersects(v_o[i].hbD.getGlobalBounds()) && this->hitbox.getPosition().y>v_o[i].hitbox.getPosition().y+30)
         {
+            this->hitbox.setPosition(this->hitbox.getPosition().x,v_o[i].hbD.getPosition().y);
             return true;
         }
     }
@@ -87,6 +91,22 @@ bool Player::collision_D(vector<Object> &v_o)
 
 void Player::movement(sf::Time elapsed, vector<Object> &v_o)
 {
+    if(!collision_U(v_o))
+    {
+        this->hitbox.move(0,elapsed.asSeconds()*this->velocity.second);
+        if(collision_U(v_o)==true)
+        {
+        }
+    }
+    if(collision_D(v_o))
+    {
+        this->velocity.second=0;
+        this->inJump=false;
+        this->hitbox.move(0,1);
+        if(collision_D(v_o)==false)
+        {
+        }
+    }
     if(!collision_x(v_o) && sf::Keyboard::isKeyPressed(sf::Keyboard::D) && !sf::Keyboard::isKeyPressed(sf::Keyboard::A))
     {
         this->hitbox.move(elapsed.asSeconds()*this->velocity.first,0);
@@ -142,16 +162,6 @@ void Player::movement(sf::Time elapsed, vector<Object> &v_o)
                 this->spr.setTextureRect(this->anim_iterator);
             }
         }
-    }
-    if(!collision_U(v_o))
-    {
-        this->hitbox.move(0,elapsed.asSeconds()*this->velocity.second);
-    }
-    if(collision_D(v_o))
-    {
-        this->velocity.second=0;
-        this->inJump=false;
-        this->hitbox.move(0,1);
     }
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::W) && this->onGround==true)
     {

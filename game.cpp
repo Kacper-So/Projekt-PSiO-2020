@@ -20,6 +20,7 @@ void Game::initWindow()
     this->window = new sf::RenderWindow(this->videoMode,"Gra",sf::Style::Close | sf::Style::Titlebar);
     this->view.setCenter(sf::Vector2f(0,0));
     this->view.setSize(this->videoMode.width,this->videoMode.height);
+    this->window->setFramerateLimit(60);
 }
 
 //Constructors & Destructors
@@ -75,14 +76,14 @@ void Game::gravity()
     }
     else
     {
-        this->player.velocity.second+=3;
+        this->player.velocity.second+=20;
     }
 
     for(int i=0;i<this->v_e.size();i++)
     {
         if(this->v_e[i].inJump)
         {
-            this->v_e[i].velocity.second+=3;
+            this->v_e[i].velocity.second+=20;
         }
         else if(!this->v_e[i].inJump)
         {

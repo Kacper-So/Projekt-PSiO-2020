@@ -2,7 +2,7 @@
 
 Enemy::Enemy()
 {
-    this->velocity=make_pair(200,0);
+    this->velocity=make_pair(150,0);
 }
 
 Enemy::~Enemy()
@@ -31,6 +31,7 @@ bool Enemy::collision_L(vector<Object> &v_o)
     {
         if(this->hitbox.getGlobalBounds().intersects(v_o[i].hbL.getGlobalBounds()))
         {
+            this->hitbox.setPosition(v_o[i].hitbox.getPosition().x-this->hitbox.getSize().x,this->hitbox.getPosition().y);
             return true;
         }
     }
@@ -42,6 +43,7 @@ bool Enemy::collision_R(vector<Object> &v_o)
     {
         if(this->hitbox.getGlobalBounds().intersects(v_o[i].hbR.getGlobalBounds()))
         {
+            this->hitbox.setPosition(v_o[i].hbR.getPosition().x,this->hitbox.getPosition().y);
             return true;
         }
     }
@@ -53,6 +55,7 @@ bool Enemy::collision_U(vector<Object> &v_o)
     {
         if(this->hitbox.getGlobalBounds().intersects(v_o[i].hbU.getGlobalBounds()))
         {
+            this->hitbox.setPosition(this->hitbox.getPosition().x,v_o[i].hitbox.getPosition().y-this->hitbox.getSize().y);
             return true;
         }
     }

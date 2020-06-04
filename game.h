@@ -16,7 +16,7 @@ private:
     sf::VideoMode videoMode;
     sf::Event ev;
     sf::View view;
-    float g=0.3;
+    float g=20;
 
     //Priv Functions
     void initVariables();
