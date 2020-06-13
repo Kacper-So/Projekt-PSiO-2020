@@ -95,9 +95,18 @@ void Game::gravity()
 void Game::update(sf::Time elapsed)
 {
     this->pollEvents(elapsed);
-    for(int i=0;i<this->v_e.size();i++)
+    for(auto i=this->v_e.begin();i!=this->v_e.end();i++)
     {
-        this->v_e[i].update(elapsed,this->v_o);
+        i->update(elapsed,this->v_o);
+        if(this->player.hitbox.getGlobalBounds().intersects(i->hitbox.getGlobalBounds()) && i->hitbox.getPosition().y-this->player.hitbox.getPosition().y>60)
+        {
+            v_e.erase(i);
+            i--;
+        }
+        else if(this->player.hitbox.getGlobalBounds().intersects(i->hitbox.getGlobalBounds()))
+        {
+            this->inGame=false;
+        }
     }
     this->player.update(elapsed,v_o);
     this->gravity();
@@ -123,7 +132,7 @@ void Game::render()
     {
         if(abs(d(this->v_e[i].k_bw,this->player.k_bw).first)<=500)
         {
-            this->window->draw(this->v_e[i].hitbox);
+            this->window->draw(this->v_e[i].spr);
         }
     }
     this->window->draw(this->player.spr);

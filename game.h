@@ -29,6 +29,7 @@ public:
     vector<Projectile> v_p;
     int lowest_object_y;
     Player player;
+    bool inGame=true;
     //Constructors & Destructors
     Game();
     virtual ~Game();

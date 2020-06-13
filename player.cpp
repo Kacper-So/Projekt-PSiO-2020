@@ -61,7 +61,7 @@ bool Player::collision_U(vector<Object> &v_o)
 {
     for(int i=0;i<v_o.size();i++)
     {
-        if(this->hitbox.getGlobalBounds().intersects(v_o[i].hbU.getGlobalBounds()) && this->hitbox.getPosition().y<v_o[i].hitbox.getPosition().y-60)
+        if(this->hitbox.getGlobalBounds().intersects(v_o[i].hbU.getGlobalBounds()) && this->hitbox.getPosition().y<v_o[i].hitbox.getPosition().y-55)
         {
             this->falling_clock.restart();
             this->falling_time=sf::seconds(0.3);

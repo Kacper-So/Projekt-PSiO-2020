@@ -58,7 +58,7 @@ int main()
     sf:: Clock clock;
     sf::Time elapsed;
     //Loop
-    while(game.running())
+    while(game.inGame==true)
     {
         elapsed=clock.restart();
         //Update

@@ -20,9 +20,15 @@ void Enemy::set()
 {
     this->hitbox.setSize(sf::Vector2f(50,50));
     this->hitbox.setPosition(sf::Vector2f(this->k_bw.first,this->k_bw.second));
-    //if(this->type=='1') this->tex.loadFromFile("Textures/1.png");
+    this->tex.loadFromFile("textures/enemy_spritesheet.png");
+    this->hbU.setSize(sf::Vector2f(this->hitbox.getSize().x,1));
+    this->hbU.setPosition(this->hitbox.getPosition().x,this->hitbox.getPosition().y-1);
     this->spr.setTexture(this->tex);
     this->spr.setPosition(this->hitbox.getPosition());
+    this->anim_iterator.width=50;
+    this->anim_iterator.height=50;
+    this->anim_iterator.top=0;
+    this->anim_iterator.left=0;
 }
 
 bool Enemy::collision_L(vector<Object> &v_o)
@@ -65,20 +71,42 @@ void Enemy::movement(sf::Time elapsed, vector<Object> &v_o)
 {
     if(this->collision_L(v_o)==true)
     {
+        this->anim_iterator.left=0;
         this->last_collision=1;
     }
     else if(this->collision_R(v_o)==true)
     {
+        this->anim_iterator.left=0;
         this->last_collision=2;
     }
     if(last_collision==1)
     {
         this->hitbox.move(-elapsed.asSeconds()*this->velocity.first,0);
+        if(this->anim_clock.getElapsedTime()>this->anim_time)
+        {
+            this->anim_clock.restart();
+            if(this->anim_iterator.top==50) this->anim_iterator.top=0;
+            this->anim_iterator.left+=anim_iterator_x;
+            if(this->anim_iterator.left==100)
+            {
+                this->anim_iterator.left=0;
+            }
+        }
         this->k_bw.first-=elapsed.asSeconds()*this->velocity.first;
     }
     else if(last_collision==2)
     {
         this->hitbox.move(elapsed.asSeconds()*this->velocity.first,0);
+        if(this->anim_clock.getElapsedTime()>this->anim_time)
+        {
+            this->anim_clock.restart();
+            this->anim_iterator.left+=anim_iterator_x;
+            if(this->anim_iterator.top==0) this->anim_iterator.top+=anim_iterator_y;
+            if(this->anim_iterator.left==100)
+            {
+                this->anim_iterator.left=0;
+            }
+        }
         this->k_bw.first+=elapsed.asSeconds()*this->velocity.first;
     }
     if(this->collision_U(v_o)==true)
@@ -96,4 +124,6 @@ void Enemy::update(sf::Time elapsed, vector<Object> &v_o)
 {
     this->movement(elapsed,v_o);
     this->spr.setPosition(this->hitbox.getPosition());
+    this->hbU.setPosition(this->hitbox.getPosition().x,this->hitbox.getPosition().y-1);
+    this->spr.setTextureRect(this->anim_iterator);
 }
