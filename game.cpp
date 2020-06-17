@@ -97,16 +97,20 @@ void Game::update(sf::Time elapsed)
     this->pollEvents(elapsed);
     for(auto i=this->v_e.begin();i!=this->v_e.end();i++)
     {
-        i->update(elapsed,this->v_o);
         if(this->player.hitbox.getGlobalBounds().intersects(i->hitbox.getGlobalBounds()) && i->hitbox.getPosition().y-this->player.hitbox.getPosition().y>60)
         {
             v_e.erase(i);
             i--;
+            for(auto i=this->v_e.begin();i!=this->v_e.end();i++)
+            {
+                i->refreshTex();
+            }
         }
         else if(this->player.hitbox.getGlobalBounds().intersects(i->hitbox.getGlobalBounds()))
         {
             this->inGame=false;
         }
+        i->update(elapsed,this->v_o);
     }
     this->player.update(elapsed,v_o);
     this->gravity();

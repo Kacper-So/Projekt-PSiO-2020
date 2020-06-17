@@ -29,6 +29,7 @@ public:
     virtual ~Enemy();
     //Functions
     void define(pair<int,int> k_arg,char type_arg);
+    void refreshTex();
     void set();
     void update(sf::Time elapsed, vector<Object> &v_o);
     bool collision_L(vector<Object> &v_o);

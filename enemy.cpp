@@ -31,6 +31,12 @@ void Enemy::set()
     this->anim_iterator.left=0;
 }
 
+void Enemy::refreshTex()
+{
+    this->tex.loadFromFile("textures/enemy_spritesheet.png");
+    this->spr.setTexture(this->tex);
+}
+
 bool Enemy::collision_L(vector<Object> &v_o)
 {
     for(int i=0;i<v_o.size();i++)
