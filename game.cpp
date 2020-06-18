@@ -10,6 +10,8 @@ pair<float,float> d(pair<float,float> a,pair<float,float> b)
 void Game::initVariables()
 {
     this->window = nullptr;
+    this->p=new Projectile;
+    this->p->define(this->player.k_bw,this->player.kierunek);
 }
 
 void Game::initWindow()
@@ -53,6 +55,12 @@ void Game::pollEvents(sf::Time elapsed)
             break;
         }
     }
+    if(sf::Mouse::isButtonPressed(sf::Mouse::Left) && this->p_clock.getElapsedTime()>sf::seconds(0.5))
+    {
+        this->p_clock.restart();
+        this->p->define(this->player.k_bw,this->player.kierunek);
+        this->v_p.push_back(*p);
+    }
 }
 
 void Game::setObjects()
@@ -95,20 +103,46 @@ void Game::gravity()
 void Game::update(sf::Time elapsed)
 {
     this->pollEvents(elapsed);
-    for(auto i=this->v_e.begin();i!=this->v_e.end();i++)
+    for(auto i=this->v_p.begin();i!=this->v_p.end();i++)
     {
-        if(this->player.hitbox.getGlobalBounds().intersects(i->hitbox.getGlobalBounds()) && i->hitbox.getPosition().y-this->player.hitbox.getPosition().y>60)
+        i->update(elapsed);
+        for(int j=0;j<this->v_o.size();j++)
         {
-            v_e.erase(i);
-            i--;
-            for(auto i=this->v_e.begin();i!=this->v_e.end();i++)
+            if(i->hitbox.getGlobalBounds().intersects(this->v_o[j].hitbox.getGlobalBounds()))
             {
-                i->refreshTex();
+                v_p.erase(i);
+                i--;
             }
         }
-        else if(this->player.hitbox.getGlobalBounds().intersects(i->hitbox.getGlobalBounds()))
+    }
+    for(auto i=this->v_e.begin();i!=this->v_e.end();i++)
+    {
+        for(auto j=this->v_p.begin();j!=this->v_p.end();j++)
         {
-            this->inGame=false;
+            if(this->player.hitbox.getGlobalBounds().intersects(i->hitbox.getGlobalBounds()) && i->hitbox.getPosition().y-this->player.hitbox.getPosition().y>60)
+            {
+                v_e.erase(i);
+                i--;
+                for(auto i=this->v_e.begin();i!=this->v_e.end();i++)
+                {
+                    i->refreshTex();
+                }
+            }
+            else if(this->player.hitbox.getGlobalBounds().intersects(i->hitbox.getGlobalBounds()))
+            {
+                this->inGame=false;
+            }
+            else if(i->hitbox.getGlobalBounds().intersects(j->hitbox.getGlobalBounds()))
+            {
+                v_e.erase(i);
+                i--;
+                for(auto i=this->v_e.begin();i!=this->v_e.end();i++)
+                {
+                    i->refreshTex();
+                }
+                v_p.erase(j);
+                j--;
+            }
         }
         i->update(elapsed,this->v_o);
     }
@@ -137,6 +171,13 @@ void Game::render()
         if(abs(d(this->v_e[i].k_bw,this->player.k_bw).first)<=500)
         {
             this->window->draw(this->v_e[i].spr);
+        }
+    }
+    for(int i=0;i<this->v_p.size();i++)
+    {
+        if(abs(d(this->v_p[i].k_bw,this->player.k_bw).first)<=500)
+        {
+            this->window->draw(this->v_p[i].spr);
         }
     }
     this->window->draw(this->player.spr);

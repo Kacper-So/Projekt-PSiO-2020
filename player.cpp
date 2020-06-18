@@ -111,6 +111,7 @@ void Player::movement(sf::Time elapsed, vector<Object> &v_o)
     {
         this->hitbox.move(elapsed.asSeconds()*this->velocity.first,0);
         this->k_bw.first+=elapsed.asSeconds()*this->velocity.first;
+        this->kierunek=false;
         if(this->anim_clock.getElapsedTime()>this->anim_time)
         {
             this->anim_clock.restart();
@@ -139,6 +140,7 @@ void Player::movement(sf::Time elapsed, vector<Object> &v_o)
     {
         this->hitbox.move(-elapsed.asSeconds()*this->velocity.first,0);
         this->k_bw.first-=elapsed.asSeconds()*this->velocity.first;
+        this->kierunek=true;
         if(this->anim_clock.getElapsedTime()>this->anim_time)
         {
             this->anim_clock.restart();
@@ -188,6 +190,7 @@ void Player::update(sf::Time elapsed, vector<Object> &v_o)
     this->movement(elapsed,v_o);
     this->falling_time+=this->falling_clock.getElapsedTime();
     this->spr.setPosition(this->hitbox.getPosition());
+    this->k_bw.second=this->hitbox.getPosition().y;
     if(this->anim_clock.getElapsedTime()>sf::seconds(0.3))
     {
         this->anim_iterator.top=0;

@@ -20,6 +20,7 @@ public:
     sf::Clock falling_clock,anim_clock;
     sf::Time falling_time,anim_time=sf::seconds(0.2);
     sf::IntRect anim_iterator;
+    bool kierunek;
     int anim_iterator_x=40,anim_iterator_y=80;
     pair<int,int> velocity;
     bool onGround;

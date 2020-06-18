@@ -9,14 +9,16 @@ using namespace std;
 class Projectile
 {
 public:
-    pair<float,float> k_bw;
+    pair<int,int> k_bw;
     sf::RectangleShape hitbox;
     sf::Sprite spr;
     sf::Texture tex;
+    bool kierunek;
     pair<int,int> velocity;
     Projectile();
-    void define();
+    void define(pair<int,int> k_bw_arg,bool kierunek_arg);
     void update(sf::Time elapsed);
+    void movement(sf::Time elapsed);
 };
 
 #endif // PROJECTILE_H

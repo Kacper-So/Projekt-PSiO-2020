@@ -29,6 +29,8 @@ public:
     vector<Projectile> v_p;
     int lowest_object_y;
     Player player;
+    Projectile *p;
+    sf::Clock p_clock;
     bool inGame=true;
     //Constructors & Destructors
     Game();
