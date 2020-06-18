@@ -13,6 +13,9 @@ public:
     sf::RectangleShape hitbox;
     sf::Sprite spr;
     sf::Texture tex;
+    sf::Clock anim_clock;
+    sf::IntRect anim_iterator;
+    int anim_const=20;
     bool kierunek;
     pair<int,int> velocity;
     Projectile();

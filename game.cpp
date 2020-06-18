@@ -117,22 +117,22 @@ void Game::update(sf::Time elapsed)
     }
     for(auto i=this->v_e.begin();i!=this->v_e.end();i++)
     {
+        if(this->player.hitbox.getGlobalBounds().intersects(i->hitbox.getGlobalBounds()) && i->hitbox.getPosition().y-this->player.hitbox.getPosition().y>60)
+        {
+            v_e.erase(i);
+            i--;
+            for(auto i=this->v_e.begin();i!=this->v_e.end();i++)
+            {
+                i->refreshTex();
+            }
+        }
+        else if(this->player.hitbox.getGlobalBounds().intersects(i->hitbox.getGlobalBounds()))
+        {
+            this->inGame=false;
+        }
         for(auto j=this->v_p.begin();j!=this->v_p.end();j++)
         {
-            if(this->player.hitbox.getGlobalBounds().intersects(i->hitbox.getGlobalBounds()) && i->hitbox.getPosition().y-this->player.hitbox.getPosition().y>60)
-            {
-                v_e.erase(i);
-                i--;
-                for(auto i=this->v_e.begin();i!=this->v_e.end();i++)
-                {
-                    i->refreshTex();
-                }
-            }
-            else if(this->player.hitbox.getGlobalBounds().intersects(i->hitbox.getGlobalBounds()))
-            {
-                this->inGame=false;
-            }
-            else if(i->hitbox.getGlobalBounds().intersects(j->hitbox.getGlobalBounds()))
+            if(i->hitbox.getGlobalBounds().intersects(j->hitbox.getGlobalBounds()))
             {
                 v_e.erase(i);
                 i--;
