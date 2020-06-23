@@ -177,14 +177,6 @@ void Player::movement(sf::Time elapsed, vector<Object> &v_o)
     }
 }
 
-void Player::shoot()
-{
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
-    {
-
-    }
-}
-
 void Player::update(sf::Time elapsed, vector<Object> &v_o)
 {
     this->movement(elapsed,v_o);

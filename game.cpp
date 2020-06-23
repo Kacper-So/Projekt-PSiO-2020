@@ -73,6 +73,10 @@ void Game::setObjects()
     {
         this->v_e[i].set();
     }
+    for(int i=0;i<this->v_f.size();i++)
+    {
+        this->v_f[i].set();
+    }
     this->player.set();
 }
 
@@ -86,7 +90,6 @@ void Game::gravity()
     {
         this->player.velocity.second+=20;
     }
-
     for(int i=0;i<this->v_e.size();i++)
     {
         if(this->v_e[i].inJump)
@@ -97,6 +100,10 @@ void Game::gravity()
         {
             this->v_e[i].velocity.second=0;
         }
+    }
+    for(int i=0;i<this->v_f.size();i++)
+    {
+        this->v_f[i].velocity.second+=20;
     }
 }
 
@@ -146,6 +153,37 @@ void Game::update(sf::Time elapsed)
         }
         i->update(elapsed,this->v_o);
     }
+    for(auto i=this->v_f.begin();i!=this->v_f.end();i++)
+    {
+        if(this->player.hitbox.getGlobalBounds().intersects(i->hitbox.getGlobalBounds()) && i->hitbox.getPosition().y-this->player.hitbox.getPosition().y>60)
+        {
+            v_f.erase(i);
+            i--;
+            for(auto i=this->v_f.begin();i!=this->v_f.end();i++)
+            {
+                i->refreshTex();
+            }
+        }
+        else if(this->player.hitbox.getGlobalBounds().intersects(i->hitbox.getGlobalBounds()))
+        {
+            this->inGame=false;
+        }
+        for(auto j=this->v_p.begin();j!=this->v_p.end();j++)
+        {
+            if(i->hitbox.getGlobalBounds().intersects(j->hitbox.getGlobalBounds()))
+            {
+                v_f.erase(i);
+                i--;
+                for(auto i=this->v_f.begin();i!=this->v_f.end();i++)
+                {
+                    i->refreshTex();
+                }
+                v_p.erase(j);
+                j--;
+            }
+        }
+        i->update(elapsed,this->v_o);
+    }
     this->player.update(elapsed,v_o);
     this->gravity();
 }
@@ -171,6 +209,13 @@ void Game::render()
         if(abs(d(this->v_e[i].k_bw,this->player.k_bw).first)<=500)
         {
             this->window->draw(this->v_e[i].spr);
+        }
+    }
+    for(int i=0;i<this->v_f.size();i++)
+    {
+        if(abs(d(this->v_f[i].k_bw,this->player.k_bw).first)<=500)
+        {
+            this->window->draw(this->v_f[i].spr);
         }
     }
     for(int i=0;i<this->v_p.size();i++)
