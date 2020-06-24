@@ -6,6 +6,7 @@ CONFIG -= qt
 SOURCES += \
         Object.cpp \
         enemy.cpp \
+        fly.cpp \
         frog.cpp \
         game.cpp \
         include.cpp \
@@ -24,6 +25,7 @@ CONFIG(debug, debug|release){
 HEADERS += \
     Object.h \
     enemy.h \
+    fly.h \
     frog.h \
     game.h \
     include.h \

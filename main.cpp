@@ -3,6 +3,7 @@
 #include "player.h"
 #include "enemy.h"
 #include "frog.h"
+#include "fly.h"
 
 using namespace std;
 
@@ -12,6 +13,7 @@ vector<Object> generateMap(Game &game)
     Object* O=new Object;
     Enemy* E=new Enemy;
     Frog* F=new Frog;
+    fly* L=new fly;
     int x=0,y=0;
     fstream input_file("Map.txt",ios::in);
     string line;
@@ -38,6 +40,11 @@ vector<Object> generateMap(Game &game)
                     {
                         F->define(make_pair(x,y),line[i]);
                         game.v_f.push_back(*F);
+                    }
+                    else if(line[i]=='l')
+                    {
+                        L->define(make_pair(x,y),line[i]);
+                        game.v_fly.push_back(*L);
                     }
                     else
                     {

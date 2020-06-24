@@ -77,6 +77,10 @@ void Game::setObjects()
     {
         this->v_f[i].set();
     }
+    for(int i=0;i<this->v_fly.size();i++)
+    {
+        this->v_fly[i].set();
+    }
     this->player.set();
 }
 
@@ -184,6 +188,37 @@ void Game::update(sf::Time elapsed)
         }
         i->update(elapsed,this->v_o);
     }
+    for(auto i=this->v_fly.begin();i!=this->v_fly.end();i++)
+    {
+        if(this->player.hitbox.getGlobalBounds().intersects(i->hitbox.getGlobalBounds()) && i->hitbox.getPosition().y-this->player.hitbox.getPosition().y>60)
+        {
+            v_fly.erase(i);
+            i--;
+            for(auto i=this->v_fly.begin();i!=this->v_fly.end();i++)
+            {
+                i->refreshTex();
+            }
+        }
+        else if(this->player.hitbox.getGlobalBounds().intersects(i->hitbox.getGlobalBounds()))
+        {
+            this->inGame=false;
+        }
+        for(auto j=this->v_p.begin();j!=this->v_p.end();j++)
+        {
+            if(i->hitbox.getGlobalBounds().intersects(j->hitbox.getGlobalBounds()))
+            {
+                v_fly.erase(i);
+                i--;
+                for(auto i=this->v_fly.begin();i!=this->v_fly.end();i++)
+                {
+                    i->refreshTex();
+                }
+                v_p.erase(j);
+                j--;
+            }
+        }
+        i->update(elapsed,this->v_o);
+    }
     this->player.update(elapsed,v_o);
     this->gravity();
 }
@@ -216,6 +251,13 @@ void Game::render()
         if(abs(d(this->v_f[i].k_bw,this->player.k_bw).first)<=500)
         {
             this->window->draw(this->v_f[i].spr);
+        }
+    }
+    for(int i=0;i<this->v_fly.size();i++)
+    {
+        if(abs(d(this->v_fly[i].k_bw,this->player.k_bw).first)<=500)
+        {
+            this->window->draw(this->v_fly[i].spr);
         }
     }
     for(int i=0;i<this->v_p.size();i++)

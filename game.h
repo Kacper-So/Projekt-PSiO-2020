@@ -6,6 +6,7 @@
 #include "projectile.h"
 #include "enemy.h"
 #include "frog.h"
+#include "fly.h"
 
 using namespace std;
 
@@ -29,6 +30,7 @@ public:
     vector<Enemy> v_e;
     vector<Projectile> v_p;
     vector<Frog> v_f;
+    vector<fly> v_fly;
     int lowest_object_y;
     Player player;
     Projectile *p;

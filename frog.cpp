@@ -168,7 +168,6 @@ void Frog::update(sf::Time elapsed, vector<Object> &v_o)
     this->movement(elapsed,v_o);
     this->falling_time+=this->falling_clock.getElapsedTime();
     this->k_bw=make_pair(this->hitbox.getPosition().x,this->hitbox.getPosition().y);
-    cout<<this->hitbox.getPosition().x<<" "<<this->hitbox.getPosition().y<<" "<<this->velocity.second<<" "<<this->inJump<<endl;
     this->spr.setPosition(this->hitbox.getPosition());
     this->hbU.setPosition(this->hitbox.getPosition().x,this->hitbox.getPosition().y-1);
     this->spr.setTextureRect(this->anim_iterator);
