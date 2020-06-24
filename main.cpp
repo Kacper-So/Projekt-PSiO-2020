@@ -14,8 +14,9 @@ vector<Object> generateMap(Game &game)
     Enemy* E=new Enemy;
     Frog* F=new Frog;
     fly* L=new fly;
+    Star* S=new Star;
     int x=0,y=0;
-    fstream input_file("Map.txt",ios::in);
+    fstream input_file(game.map,ios::in);
     string line;
     if(input_file.is_open())
     {
@@ -46,6 +47,11 @@ vector<Object> generateMap(Game &game)
                         L->define(make_pair(x,y),line[i]);
                         game.v_fly.push_back(*L);
                     }
+                    else if(line[i]=='s')
+                    {
+                        S->define(make_pair(x,y));
+                        game.v_s.push_back(*S);
+                    }
                     else
                     {
                         O->define(make_pair(x,y),line[i]);
@@ -65,20 +71,20 @@ vector<Object> generateMap(Game &game)
 int main()
 {
     //Init game
-    Game game;
-    game.v_o=generateMap(game);
-    game.setObjects();
+    Game *game=new Game("Map1.txt");
+    game->v_o=generateMap(*game);
+    game->setObjects();
 
     sf:: Clock clock;
     sf::Time elapsed;
     //Loop
-    while(game.inGame==true)
+    while(game->inGame==true)
     {
         elapsed=clock.restart();
         //Update
-        game.update(elapsed);
+        game->update(elapsed);
         //Render
-        game.render();
+        game->render();
     }
     return 0;
 }

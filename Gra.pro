@@ -12,7 +12,8 @@ SOURCES += \
         include.cpp \
         main.cpp \
         player.cpp \
-        projectile.cpp
+        projectile.cpp \
+        star.cpp
 
 INCLUDEPATH += "C:/SFML-2.5.1/include"
 LIBS += -L"C:/SFML-2.5.1/lib"
@@ -30,4 +31,5 @@ HEADERS += \
     game.h \
     include.h \
     player.h \
-    projectile.h
+    projectile.h \
+    star.h

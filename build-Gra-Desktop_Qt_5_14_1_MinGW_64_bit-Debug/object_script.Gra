@@ -1,0 +1,10 @@
+Object.o
+enemy.o
+fly.o
+frog.o
+game.o
+include.o
+main.o
+player.o
+projectile.o
+star.o

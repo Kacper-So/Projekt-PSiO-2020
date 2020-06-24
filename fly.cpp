@@ -108,6 +108,7 @@ void fly::movement(sf::Time elapsed, vector<Object> &v_o)
 void fly::update(sf::Time elapsed, vector<Object> &v_o)
 {
     this->movement(elapsed,v_o);
+    this->k_bw=make_pair(this->hitbox.getPosition().x,this->hitbox.getPosition().y);
     this->spr.setPosition(this->hitbox.getPosition());
     this->hbU.setPosition(this->hitbox.getPosition().x,this->hitbox.getPosition().y-1);
     this->spr.setTextureRect(this->anim_iterator);

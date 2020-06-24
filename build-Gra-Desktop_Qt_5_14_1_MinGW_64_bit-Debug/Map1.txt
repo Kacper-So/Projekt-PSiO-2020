@@ -1,0 +1,23 @@
+%instrukcja: 1 upewnij sie ze kazda linia ma tyle samo znakow (spacja to znak) 2 * to glowa gracza, pozcja niezmieniać pozycji%
+                                                                                                                               
+                                                                                                                               
+                        f                                                                                                      
+                   33333333333   3  3  3  3   3  s    e      3                                                                 
+                                              3333333333333333         3      3     3      3                                   
+           333                                                                                                                 
+                                                                  3                             3                              
+      33                                                               3      3     3      3         3                         
+                                                                                                                               
+           33                                                     3                 s           3                              
+       l                                                               3      3     3      3         3                         
+                 33                                               s                                                            
+s       s                        3 e   s e  3                     3                             3                              
+2       3                 33     333333333333                                                        3                  s      
+23                  33                         3                                                         1                    1
+2                                   l             3          s                                           2         s          2
+2      3 3    33       s                                3    1                                           2        333         2
+2 l                                                          2           l                               2               3    2
+2       s                    l                               2                                           2    3               2
+2 *  3  3  3                                                 2                                           2                    2
+2            e      1     1        e   s                  f  2                          l                2  f      f s  f  f  2
+211111111111111111112     211111111111111111111111111111111112                                           2111111111111111111112

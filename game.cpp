@@ -7,10 +7,11 @@ pair<float,float> d(pair<float,float> a,pair<float,float> b)
 }
 
 //Priv Functions
-void Game::initVariables()
+void Game::initVariables(string map_arg)
 {
     this->window = nullptr;
     this->p=new Projectile;
+    map=map_arg;
     this->p->define(this->player.k_bw,this->player.kierunek);
 }
 
@@ -26,9 +27,9 @@ void Game::initWindow()
 }
 
 //Constructors & Destructors
-Game::Game()
+Game::Game(string map_arg)
 {
-    this->initVariables();
+    this->initVariables(map_arg);
     this->initWindow();
 }
 
@@ -81,6 +82,10 @@ void Game::setObjects()
     {
         this->v_fly[i].set();
     }
+    for(int i=0;i<this->v_s.size();i++)
+    {
+        this->v_s[i].set();
+    }
     this->player.set();
 }
 
@@ -132,13 +137,14 @@ void Game::update(sf::Time elapsed)
         {
             v_e.erase(i);
             i--;
-            for(auto i=this->v_e.begin();i!=this->v_e.end();i++)
+            for(auto j=this->v_e.begin();j!=this->v_e.end();j++)
             {
-                i->refreshTex();
+                j->refreshTex();
             }
         }
         else if(this->player.hitbox.getGlobalBounds().intersects(i->hitbox.getGlobalBounds()))
         {
+            cout<<"Przegrana, zabil cie glut"<<endl;
             this->inGame=false;
         }
         for(auto j=this->v_p.begin();j!=this->v_p.end();j++)
@@ -147,12 +153,21 @@ void Game::update(sf::Time elapsed)
             {
                 v_e.erase(i);
                 i--;
-                for(auto i=this->v_e.begin();i!=this->v_e.end();i++)
+                for(auto k=this->v_e.begin();k!=this->v_e.end();k++)
                 {
-                    i->refreshTex();
+                    k->refreshTex();
                 }
                 v_p.erase(j);
                 j--;
+            }
+        }
+        if(i->k_bw.second>this->lowest_object_y)
+        {
+            v_e.erase(i);
+            i--;
+            for(auto j=this->v_e.begin();j!=this->v_e.end();j++)
+            {
+                j->refreshTex();
             }
         }
         i->update(elapsed,this->v_o);
@@ -163,13 +178,14 @@ void Game::update(sf::Time elapsed)
         {
             v_f.erase(i);
             i--;
-            for(auto i=this->v_f.begin();i!=this->v_f.end();i++)
+            for(auto j=this->v_f.begin();j!=this->v_f.end();j++)
             {
-                i->refreshTex();
+                j->refreshTex();
             }
         }
         else if(this->player.hitbox.getGlobalBounds().intersects(i->hitbox.getGlobalBounds()))
         {
+            cout<<"Przegrana, zabila cie zaba"<<endl;
             this->inGame=false;
         }
         for(auto j=this->v_p.begin();j!=this->v_p.end();j++)
@@ -178,12 +194,21 @@ void Game::update(sf::Time elapsed)
             {
                 v_f.erase(i);
                 i--;
-                for(auto i=this->v_f.begin();i!=this->v_f.end();i++)
+                for(auto k=this->v_f.begin();k!=this->v_f.end();k++)
                 {
-                    i->refreshTex();
+                    k->refreshTex();
                 }
                 v_p.erase(j);
                 j--;
+            }
+        }
+        if(i->k_bw.second>this->lowest_object_y)
+        {
+            v_f.erase(i);
+            i--;
+            for(auto j=this->v_f.begin();j!=this->v_f.end();j++)
+            {
+                j->refreshTex();
             }
         }
         i->update(elapsed,this->v_o);
@@ -194,13 +219,14 @@ void Game::update(sf::Time elapsed)
         {
             v_fly.erase(i);
             i--;
-            for(auto i=this->v_fly.begin();i!=this->v_fly.end();i++)
+            for(auto j=this->v_fly.begin();j!=this->v_fly.end();j++)
             {
-                i->refreshTex();
+                j->refreshTex();
             }
         }
         else if(this->player.hitbox.getGlobalBounds().intersects(i->hitbox.getGlobalBounds()))
         {
+            cout<<"Przegrana, zabila cie mucha"<<endl;
             this->inGame=false;
         }
         for(auto j=this->v_p.begin();j!=this->v_p.end();j++)
@@ -209,15 +235,58 @@ void Game::update(sf::Time elapsed)
             {
                 v_fly.erase(i);
                 i--;
-                for(auto i=this->v_fly.begin();i!=this->v_fly.end();i++)
+                for(auto k=this->v_fly.begin();k!=this->v_fly.end();k++)
                 {
-                    i->refreshTex();
+                    k->refreshTex();
                 }
                 v_p.erase(j);
                 j--;
             }
         }
+        if(i->k_bw.second>this->lowest_object_y)
+        {
+            v_fly.erase(i);
+            i--;
+            for(auto j=this->v_fly.begin();j!=this->v_fly.end();j++)
+            {
+                j->refreshTex();
+            }
+        }
         i->update(elapsed,this->v_o);
+    }
+    for(auto i=this->v_s.begin();i!=this->v_s.end();i++)
+    {
+        if(this->player.hitbox.getGlobalBounds().intersects(i->hitbox.getGlobalBounds()))
+        {
+            v_s.erase(i);
+            i--;
+            for(auto i=this->v_s.begin();i!=this->v_s.end();i++)
+            {
+                i->refreshTex();
+            }
+            if(v_s.empty())
+            {
+                cout<<"Wygrana, wszystkie gwiazdy zebrane"<<endl;
+                this->inGame=false;
+            }
+            for(int j=0;j<this->v_e.size();j++)
+            {
+                v_e[j].velocity.first=v_e[j].velocity.first*1.05;
+            }
+            for(int j=0;j<this->v_f.size();j++)
+            {
+                v_e[j].velocity.first=v_f[j].velocity.first*1.2;
+            }
+            for(int j=0;j<this->v_fly.size();j++)
+            {
+                v_e[j].velocity.first=v_fly[j].velocity.first*1.05;
+            }
+        }
+    }
+    if(this->player.k_bw.second>this->lowest_object_y)
+    {
+        cout<<"Przegrana, spadles"<<endl;
+        this->inGame=false;
     }
     this->player.update(elapsed,v_o);
     this->gravity();
@@ -233,10 +302,6 @@ void Game::render()
         if(abs(d(this->v_o[i].k_bw,this->player.k_bw).first)<=500)
         {
             this->window->draw(this->v_o[i].spr);
-            //this->window->draw(this->v_o[i].hbD);
-            //this->window->draw(this->v_o[i].hbR);
-            //this->window->draw(this->v_o[i].hbU);
-            //this->window->draw(this->v_o[i].hbL);
         }
     }
     for(int i=0;i<this->v_e.size();i++)
@@ -265,6 +330,13 @@ void Game::render()
         if(abs(d(this->v_p[i].k_bw,this->player.k_bw).first)<=500)
         {
             this->window->draw(this->v_p[i].spr);
+        }
+    }
+    for(int i=0;i<this->v_s.size();i++)
+    {
+        if(abs(d(this->v_s[i].k_bw,this->player.k_bw).first)<=500)
+        {
+            this->window->draw(this->v_s[i].spr);
         }
     }
     this->window->draw(this->player.spr);

@@ -7,6 +7,7 @@
 #include "enemy.h"
 #include "frog.h"
 #include "fly.h"
+#include "star.h"
 
 using namespace std;
 
@@ -21,23 +22,25 @@ private:
     float g=20;
 
     //Priv Functions
-    void initVariables();
+    void initVariables(string map_arg);
     void initWindow();
 
 public:
     //Variables
+    string map;
     vector<Object> v_o;
     vector<Enemy> v_e;
     vector<Projectile> v_p;
     vector<Frog> v_f;
     vector<fly> v_fly;
+    vector<Star> v_s;
     int lowest_object_y;
     Player player;
     Projectile *p;
     sf::Clock p_clock;
     bool inGame=true;
     //Constructors & Destructors
-    Game();
+    Game(string map_arg);
     virtual ~Game();
 
     //Accessors
